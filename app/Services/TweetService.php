@@ -3,9 +3,21 @@
 namespace App\Services;
 
 use App\Models\Tweet;
+use Carbon\Carbon;
 
 class TweetService
 {
+    public function countYesterdayTweets(): int
+    {
+        return Tweet::whereDate(
+            'created_at',
+            '>=',
+            Carbon::yesterday()->toDateTimeString()
+        )
+            ->whereDate('created_at', '<', Carbon::today()->toDateTimeString())
+            ->count();
+    }
+
     public function getTweets()
     {
         return Tweet::orderBy('created_at', 'DESC')->get();
