@@ -27,6 +27,11 @@ class SendDailyTweetCountMail extends Command
     private TweetService $tweetService;
     private Mailer $mailer;
 
+    /**
+     * Create a new command instance.
+     *
+     * @return void
+     */
     public function __construct(TweetService $tweetService, Mailer $mailer)
     {
         parent::__construct();
@@ -46,8 +51,7 @@ class SendDailyTweetCountMail extends Command
         $users = User::get();
 
         foreach ($users as $user) {
-            $this->mailer
-                ->to($user->email)
+            $this->mailer->to($user->email)
                 ->send(new DailyTweetCount($user, $tweetCount));
         }
 

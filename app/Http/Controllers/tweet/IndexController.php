@@ -17,6 +17,7 @@ class IndexController extends Controller
     public function __invoke(Request $request, TweetService $tweetService)
     {
         $tweets = $tweetService->getTweets();
-        return view('tweet.index')->with('tweets', $tweets);
+        return view('tweet.index')
+            ->with('tweets', $tweets);
     }
 }

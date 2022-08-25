@@ -12,7 +12,6 @@ services:
             - 'host.docker.internal:host-gateway'
         ports:
             - '${APP_PORT:-80}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
         environment:
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
@@ -26,7 +25,6 @@ services:
             - mysql
             - redis
             - meilisearch
-            - mailhog
             - selenium
     mysql:
         image: 'mysql/mysql-server:8.0'
@@ -41,7 +39,6 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
             - 'sail-mysql:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
             - './docker/8.1/my.cnf:/etc/my.cnf'
         networks:
             - sail
@@ -66,7 +63,7 @@ services:
         ports:
             - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
         volumes:
-            - 'sail-meilisearch:/meili_data'
+            - 'sail-meilisearch:/data.ms'
         networks:
             - sail
         healthcheck:
@@ -81,11 +78,13 @@ services:
         networks:
             - sail
     selenium:
-        image: 'selenium/standalone-chrome'
+        image: 'seleniarm/standalone-chromium:4.0.0-beta-1-20210215'
         volumes:
             - '/dev/shm:/dev/shm'
         networks:
             - sail
+        ports:
+            - 4444:4444
 networks:
     sail:
         driver: bridge
