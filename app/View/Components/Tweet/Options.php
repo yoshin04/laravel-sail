@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 
 class Options extends Component
 {
-    private int $teetId;
+    private int $tweetId;
     private int $userId;
 
     public function __construct(int $tweetId, int $userId)
@@ -19,9 +19,6 @@ class Options extends Component
     {
         return view('components.tweet.options')
             ->with('tweetId', $this->tweetId)
-            ->with(
-                'myTweet',
-                \Illuminate\Support\Facades\Auth::id() === $this->userId
-            );
+            ->with('myTweet', \Illuminate\Support\Facades\Auth::id() === $this->userId);
     }
 }

@@ -19,12 +19,12 @@ class UpdateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, mixed>
+     * @return array
      */
     public function rules()
     {
         return [
-            'tweet' => 'required|max:140',
+            'tweet' => 'required|max:140'
         ];
     }
 
@@ -35,6 +35,6 @@ class UpdateRequest extends FormRequest
 
     public function id(): int
     {
-        return $this->route('tweetId');
+        return (int) $this->route('tweetId');
     }
 }
